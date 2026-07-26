@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUSPP</title>
+<link rel="icon" type="image/x-icon" href="LOGO.ico">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="brand" onclick="showView('landing')">
+    <img class="brand-logo" src="LOGO.ico" alt="Logotipo de NEXUSPP">
+    <span><strong>NEXUSPP</strong><small>Conecta. Aprende. Crece.</small></span>
+  </button>
+  <nav class="nav">
+    <button onclick="showView('landing')">Inicio</button>
+    <button onclick="scrollToId('features')">Funciones</button>
+    <button onclick="scrollToId('subjects')">Materias</button>
+    <button onclick="scrollToId('steps')">Cómo funciona</button>
+    <button onclick="scrollToId('publicRanking')">Ranking</button>
+  </nav>
+  <div class="actions" id="guestActions">
+    <button class="btn ghost" onclick="openAuth('login','student')">Iniciar sesión</button>
+    <button class="btn primary" onclick="openAuth('register','student')">Registrarse</button>
+  </div>
+  <div class="actions hidden" id="sessionActions">
+    <strong id="sessionName"></strong>
+    <button class="btn ghost" onclick="route()">Mi panel</button>
+    <button class="btn ghost" onclick="logout()">Cerrar sesión</button>
+  </div>
+</header>
+
+<main>
+<section id="landing" class="view active">
+  <section class="hero">
+    <div>
+      <span class="eyebrow">PLATAFORMA DE TUTORÍAS ACADÉMICAS</span>
+      <h1>Encuentra la tutoría <span>que encaja contigo</span></h1>
+      <p>NEXUSPP conecta estudiantes con tutores considerando materia, horario, modalidad y presupuesto.</p>
+      <div class="hero-actions">
+        <button class="btn primary large" onclick="openAuth('login','student')">🎓 Soy estudiante</button>
+        <button class="btn outline large" onclick="openAuth('login','tutor')">👤 Soy tutor</button>
+      </div>
+      <div class="stats">
+        <article><strong id="statBookings">0</strong><span>Tutorías reservadas</span></article>
+        <article><strong id="statTutors">0</strong><span>Tutores disponibles</span></article>
+        <article><strong>5</strong><span>Materias académicas</span></article>
+      </div>
+    </div>
+    <div class="visual">
+      <div class="orbit o1"></div><div class="orbit o2"></div>
+      <img class="hero-logo" src="LOGO.ico" alt="Logotipo de NEXUSPP">
+      <article class="float preview"><div class="avatar">AM</div><div><span class="tiny">Tutor recomendado</span><strong>Andrés Molina</strong><p>Matemáticas · Física</p></div><span class="pill">100%</span></article>
+      <article class="float progress"><span>Tu progreso</span><strong>82%</strong><div class="mini"><i></i></div></article>
+    </div>
+  </section>
+
+  <section class="section features" id="features">
+    <article class="feature"><span class="icon">◎</span><div><h2>Recomendaciones personalizadas</h2><p>Compara disponibilidad, modalidad y presupuesto para mostrar los mejores tutores.</p></div></article>
+    <article class="feature"><span class="icon">▣</span><div><h2>Reservas sencillas</h2><p>Selecciona duración, confirma el costo y bloquea el horario reservado.</p></div></article>
+    <article class="feature"><span class="icon">⌁</span><div><h2>Estadísticas útiles</h2><p>Consulta asesorías, horas impartidas, promedio y estudiantes asignados.</p></div></article>
+  </section>
+
+  <section class="section subjects" id="subjects">
+    <div class="heading"><span class="eyebrow">MATERIAS DISPONIBLES</span><h2>Aprende con apoyo especializado</h2></div>
+    <div class="subject-grid">
+      <article><span>∑</span><strong>Álgebra</strong></article><article><span>⚛</span><strong>Física</strong></article><article><span>∫</span><strong>Cálculo</strong></article><article><span>&lt;/&gt;</span><strong>Programación</strong></article><article><span>▥</span><strong>Estadística</strong></article>
+    </div>
+  </section>
+
+  <section class="section steps" id="steps">
+    <div class="heading"><span class="eyebrow">¿CÓMO FUNCIONA?</span><h2>Del registro a la tutoría en cuatro pasos</h2></div>
+    <div class="steps-grid">
+      <article><b>01</b><span>✦</span><h3>Regístrate</h3><p>Crea una cuenta como estudiante o tutor.</p></article>
+      <article><b>02</b><span>⌕</span><h3>Busca</h3><p>Elige materia, horario, modalidad y presupuesto.</p></article>
+      <article><b>03</b><span>◎</span><h3>Compara</h3><p>Revisa hasta tres tutores ordenados por compatibilidad.</p></article>
+      <article><b>04</b><span>✓</span><h3>Reserva</h3><p>Selecciona la duración y confirma la tutoría.</p></article>
+    </div>
+  </section>
+
+  <section class="section public-ranking" id="publicRanking">
+    <div class="heading"><span class="eyebrow">RESULTADOS GENERALES</span><h2>Ranking de tutores y porcentaje de atención</h2></div>
+    <div class="ranking-layout">
+      <article class="ranking-board">
+        <div class="panel-head"><h3>Los tres tutores con más asesorías</h3><span class="pill">Ranking</span></div>
+        <div id="publicRankingList"></div>
+      </article>
+      <article class="attention-board">
+        <div class="panel-head"><h3>Atención a estudiantes</h3><span class="pill">Resumen</span></div>
+        <div class="attention-grid">
+          <article><span>Registrados</span><strong id="attentionRegistered">0</strong></article>
+          <article><span>Con tutorías</span><strong id="attentionServed">0</strong></article>
+          <article><span>Sin tutorías</span><strong id="attentionUnserved">0</strong></article>
+          <article><span>Porcentaje atendido</span><strong id="attentionPercent">0%</strong></article>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section cta"><div><span class="eyebrow">EMPIEZA AHORA</span><h2>Tu próxima tutoría puede estar a unos clics.</h2></div><button class="btn primary large" onclick="openAuth('register','student')">Crear una cuenta →</button></section>
+</section>
+
+<section id="student" class="view app">
+  <aside class="sidebar">
+    <div class="side-brand"><img class="brand-logo" src="LOGO.ico" alt="Logotipo de NEXUSPP"><strong>NEXUSPP</strong></div>
+    <button class="side-link active" onclick="studentScreen('studentHome',this)">⌂ Inicio</button>
+    <button class="side-link" onclick="studentScreen('recommend',this)">◎ Recomendado</button>
+    <button class="side-link" onclick="studentScreen('direct',this)">⌕ Elegir directamente</button>
+    <button class="side-link" onclick="studentScreen('myBookings',this)">▣ Mis tutorías</button>
+  </aside>
+  <div class="content">
+    <section id="studentHome" class="screen active">
+      <div class="dash-head"><span class="eyebrow">PANEL DEL ESTUDIANTE</span><h2>Hola, <span id="studentName">estudiante</span> 👋</h2><p>¿Qué deseas hacer hoy?</p></div>
+      <div class="action-grid">
+        <button onclick="studentScreen('recommend')"><span>◎</span><strong>Buscar tutor recomendado</strong><small>Compara tus criterios.</small></button>
+        <button onclick="studentScreen('direct')"><span>⌕</span><strong>Elegir tutor directamente</strong><small>Filtra por materia.</small></button>
+        <button onclick="studentScreen('myBookings')"><span>▣</span><strong>Ver mis tutorías</strong><small>Consulta reservas y costos.</small></button>
+      </div>
+      <div class="dash-grid">
+        <article class="panel"><div class="panel-head"><h3>Próxima tutoría</h3><span class="pill">Agenda</span></div><div id="nextBooking" class="empty">Todavía no tienes tutorías reservadas.</div></article>
+        <article class="panel"><div class="panel-head"><h3>Resumen</h3></div><div class="metrics" style="grid-template-columns:repeat(3,1fr)"><article><span>Reservas</span><strong id="mBookings">0</strong></article><article><span>Horas</span><strong id="mHours">0</strong></article><article><span>Total</span><strong id="mSpent">$0</strong></article></div></article>
+      </div>
+    </section>
+
+    <section id="recommend" class="screen">
+      <div class="dash-head"><span class="eyebrow">COMPATIBILIDAD</span><h2>Buscar tutor recomendado</h2><p>La materia es obligatoria. Horario, modalidad y presupuesto valen lo mismo.</p></div>
+      <form class="panel search-form" onsubmit="searchRecommended(event)">
+        <label>Materia<select id="rSubject" required><option value="">Selecciona</option><option value="Algebra">Álgebra</option><option value="Fisica">Física</option><option value="Calculo">Cálculo</option><option value="Programacion">Programación</option><option value="Estadistica">Estadística</option></select></label>
+        <label>Día<select id="rDay" required><option value="">Selecciona</option><option>Lunes</option><option>Martes</option><option>Miércoles</option><option>Jueves</option><option>Viernes</option></select></label>
+        <label>Horario<select id="rBlock" required><option value="">Selecciona</option><option>14:00 - 16:00</option><option>16:00 - 18:00</option><option>19:00 - 21:00</option></select></label>
+        <label>Modalidad<select id="rMode" required><option value="">Selecciona</option><option>Virtual</option><option>Presencial</option></select></label>
+        <label>Presupuesto máximo<input id="rBudget" type="number" min=".01" step=".01" placeholder="Ej. 8.50" required></label>
+        <button class="btn primary">Calcular</button>
+      </form>
+      <div id="recommendedResults" class="results"></div>
+    </section>
+
+    <section id="direct" class="screen">
+      <div class="dash-head"><span class="eyebrow">ELECCIÓN MANUAL</span><h2>Elegir tutor directamente</h2><p>Selecciona una materia y revisa los tutores.</p></div>
+      <form class="panel inline" onsubmit="searchDirect(event)">
+        <label>Materia<select id="dSubject" required><option value="">Selecciona</option><option value="Algebra">Álgebra</option><option value="Fisica">Física</option><option value="Calculo">Cálculo</option><option value="Programacion">Programación</option><option value="Estadistica">Estadística</option></select></label>
+        <button class="btn primary">Buscar</button>
+      </form>
+      <div id="directResults" class="results"></div>
+    </section>
+
+    <section id="myBookings" class="screen">
+      <div class="dash-head"><span class="eyebrow">HISTORIAL</span><h2>Mis tutorías</h2><p>Consulta tus tutorías programadas y las que ya fueron finalizadas.</p></div>
+      <div id="studentBookings" class="booking-list"></div>
+    </section>
+  </div>
+</section>
+
+<section id="tutor" class="view app">
+  <aside class="sidebar">
+    <div class="side-brand"><img class="brand-logo" src="LOGO.ico" alt="Logotipo de NEXUSPP"><strong>NEXUSPP</strong></div>
+    <button class="side-link active" onclick="tutorScreen('tutorHome',this)">⌂ Inicio</button>
+    <button class="side-link" onclick="tutorScreen('config',this)">⚙ Configuración</button>
+    <button class="side-link" onclick="tutorScreen('availabilityScreen',this)">▦ Disponibilidad</button>
+    <button class="side-link" onclick="tutorScreen('assigned',this)">☷ Estudiantes asignados</button>
+    <button class="side-link" onclick="tutorScreen('statistics',this)">⌁ Estadísticas</button>
+  </aside>
+  <div class="content">
+    <section id="tutorHome" class="screen active">
+      <div class="dash-head"><span class="eyebrow">PANEL DEL TUTOR</span><h2>Hola, <span id="tutorName">tutor</span> 👋</h2><p>Gestiona tu perfil de tutoría.</p></div>
+      <div class="metrics"><article><span>Sesiones</span><strong id="tSessions">0</strong></article><article><span>Horas</span><strong id="tHours">0</strong></article><article><span>Promedio</span><strong id="tAverage">0</strong></article><article><span>Estudiantes</span><strong id="tStudents">0</strong></article></div>
+      <article class="panel"><div class="panel-head"><h3>Próximas sesiones</h3><span class="pill">Agenda</span></div><div id="tUpcoming" class="booking-list"></div></article>
+    </section>
+
+    <section id="config" class="screen">
+      <div class="dash-head"><span class="eyebrow">CONFIGURACIÓN</span><h2>Actualiza tus datos</h2></div>
+      <form class="panel inline" onsubmit="saveTutorConfig(event)">
+        <label>Materia<select id="tSubject"><option value="Algebra">Álgebra</option><option value="Fisica">Física</option><option value="Calculo">Cálculo</option><option value="Programacion">Programación</option><option value="Estadistica">Estadística</option></select></label>
+        <label>Modalidad<select id="tMode"><option>Virtual</option><option>Presencial</option></select></label>
+        <label>Costo por hora<input id="tRate" type="number" min=".01" step=".01" required></label>
+        <button class="btn primary">Guardar</button>
+      </form>
+    </section>
+
+    <section id="availabilityScreen" class="screen">
+      <div class="dash-head"><span class="eyebrow">DISPONIBILIDAD</span><h2>Marca tus horarios</h2></div>
+      <form class="panel" onsubmit="saveAvailability(event)"><div id="availabilityGrid" class="availability"></div><button class="btn primary">Guardar disponibilidad</button></form>
+    </section>
+
+    <section id="assigned" class="screen">
+      <div class="dash-head"><span class="eyebrow">RESERVAS RECIBIDAS</span><h2>Estudiantes asignados</h2><p>Finaliza una tutoría cuando haya concluido para enviarla al historial.</p></div>
+      <div id="assignedList" class="booking-list"></div>
+    </section>
+
+    <section id="statistics" class="screen">
+      <div class="dash-head"><span class="eyebrow">RENDIMIENTO</span><h2>Estadísticas del tutor</h2></div>
+      <div class="metrics"><article><span>Asesorías</span><strong id="sSessions">0</strong></article><article><span>Horas</span><strong id="sHours">0</strong></article><article><span>Promedio</span><strong id="sAverage">0</strong></article><article><span>Ranking</span><strong id="sRank">#1</strong></article></div>
+      <article class="panel"><div class="panel-head"><h3>Ranking de tutores</h3></div><div id="ranking"></div></article>
+    </section>
+  </div>
+</section>
+</main>
+
+<div id="authBg" class="modal-bg hidden">
+  <section class="modal">
+    <button class="close" onclick="closeAuth()">×</button>
+    <div class="tabs"><button id="roleStudent" class="active" onclick="setAuthRole('student')">Estudiante</button><button id="roleTutor" onclick="setAuthRole('tutor')">Tutor</button></div>
+    <div class="tabs"><button id="modeLogin" class="active" onclick="setAuthMode('login')">Iniciar sesión</button><button id="modeRegister" onclick="setAuthMode('register')">Registrarse</button></div>
+    <h2 id="authTitle">Bienvenido de nuevo</h2><p id="authSub">Ingresa tus credenciales.</p>
+    <form onsubmit="submitAuth(event)">
+      <label id="nameField" class="hidden">Nombre completo<input id="authName"></label>
+      <label>Usuario<input id="authUser" required></label>
+      <label>Contraseña<input id="authPass" type="password" required></label>
+      <button id="authButton" class="btn primary block">Iniciar sesión</button>
+      <p id="authMsg" class="msg"></p>
+    </form>
+    <div class="demo">
+      <strong>Cuentas precargadas del programa Java</strong>
+      <details>
+        <summary>Ver los 10 estudiantes y 10 tutores</summary>
+        <div class="seed-accounts">
+          <table>
+            <thead><tr><th>Rol</th><th>Usuario</th><th>Clave</th></tr></thead>
+            <tbody>
+              <tr><td>Estudiante</td><td>pedro</td><td>456</td></tr>
+              <tr><td>Estudiante</td><td>camila</td><td>1234</td></tr>
+              <tr><td>Estudiante</td><td>diego</td><td>2345</td></tr>
+              <tr><td>Estudiante</td><td>erika</td><td>3456</td></tr>
+              <tr><td>Estudiante</td><td>franco</td><td>4567</td></tr>
+              <tr><td>Estudiante</td><td>gabriela</td><td>5678</td></tr>
+              <tr><td>Estudiante</td><td>hector</td><td>6789</td></tr>
+              <tr><td>Estudiante</td><td>ivonne</td><td>7890</td></tr>
+              <tr><td>Estudiante</td><td>jonathan</td><td>8901</td></tr>
+              <tr><td>Estudiante</td><td>karina</td><td>9012</td></tr>
+              <tr><td>Tutor</td><td>ana</td><td>123</td></tr>
+              <tr><td>Tutor</td><td>carlos</td><td>234</td></tr>
+              <tr><td>Tutor</td><td>maria</td><td>1234</td></tr>
+              <tr><td>Tutor</td><td>jose</td><td>1234</td></tr>
+              <tr><td>Tutor</td><td>luis</td><td>1234</td></tr>
+              <tr><td>Tutor</td><td>diana</td><td>1234</td></tr>
+              <tr><td>Tutor</td><td>pedro</td><td>1234</td></tr>
+              <tr><td>Tutor</td><td>karla</td><td>1234</td></tr>
+              <tr><td>Tutor</td><td>andres</td><td>1234</td></tr>
+              <tr><td>Tutor</td><td>sofia</td><td>1234</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
+  </section>
+</div>
+
+<div id="bookBg" class="modal-bg hidden">
+  <section class="modal">
+    <button class="close" onclick="closeBook()">×</button>
+    <span class="eyebrow">CONFIRMAR TUTORÍA</span><h2>Registrar reserva</h2>
+    <div id="bookSummary" class="summary"></div>
+    <form onsubmit="submitBooking(event)">
+      <label>Horario disponible<select id="bookSlot" required></select></label>
+      <label>Duración<select id="bookDuration" onchange="updateTotal()"><option value="1">1 hora</option><option value="2">2 horas</option></select></label>
+      <label>Presupuesto máximo por hora<input id="bookBudget" type="number" min=".01" step=".01" required></label>
+      <div class="total"><span>Costo total</span><strong id="bookTotal">$0.00</strong></div>
+      <button class="btn primary block">Confirmar reserva</button><p id="bookMsg" class="msg"></p>
+    </form>
+  </section>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
